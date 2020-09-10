@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -9,16 +10,46 @@
         <!--Search View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="StoreSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yUk-1F-Jcm">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="o4A-7c-a1Y"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="UZm-yL-cKH"/>
+                                </connections>
+                            </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="Haz-Ew-fSL">
+                                <rect key="frame" x="0.0" y="44" width="414" height="56"/>
+                                <string key="placeholder">App name, artist, song, album, e-book.
+</string>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="yUk-1F-Jcm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="1w5-MF-XyO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="yUk-1F-Jcm" secondAttribute="bottom" id="5fL-gG-UFI"/>
+                            <constraint firstItem="yUk-1F-Jcm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Gey-FR-btD"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yUk-1F-Jcm" secondAttribute="trailing" id="eb5-Pg-qPF"/>
+                            <constraint firstItem="Haz-Ew-fSL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="j0g-SY-47M"/>
+                            <constraint firstItem="Haz-Ew-fSL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="vxU-gg-WV1"/>
+                            <constraint firstItem="Haz-Ew-fSL" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="zMI-Gh-xc0"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="searchBar" destination="Haz-Ew-fSL" id="JCo-dk-yhN"/>
+                        <outlet property="tableView" destination="yUk-1F-Jcm" id="UZP-lG-8gd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="139" y="98"/>
         </scene>
     </scenes>
 </document>
