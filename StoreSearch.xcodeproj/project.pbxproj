@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C711E3EF2510D13E001283DF /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C711E3EE2510D13E001283DF /* LoadingCell.xib */; };
 		C74BD5FB250A988C0048EA2D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BD5FA250A988C0048EA2D /* AppDelegate.swift */; };
 		C74BD5FD250A988C0048EA2D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BD5FC250A988C0048EA2D /* SceneDelegate.swift */; };
 		C74BD5FF250A988C0048EA2D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BD5FE250A988C0048EA2D /* SearchViewController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C711E3EE2510D13E001283DF /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 		C74BD5F7250A988C0048EA2D /* StoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C74BD5FA250A988C0048EA2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C74BD5FC250A988C0048EA2D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				C7DB2C5E250C16DC006166A3 /* SearchResultCell.swift */,
 				C7DB2C60250C19E8006166A3 /* Constant.swift */,
 				C7DB2C63250C258B006166A3 /* NothingFoundCell.xib */,
+				C711E3EE2510D13E001283DF /* LoadingCell.xib */,
 			);
 			path = StoreSearch;
 			sourceTree = "<group>";
@@ -142,6 +145,7 @@
 			files = (
 				C74BD607250A988E0048EA2D /* LaunchScreen.storyboard in Resources */,
 				C74BD604250A988E0048EA2D /* Assets.xcassets in Resources */,
+				C711E3EF2510D13E001283DF /* LoadingCell.xib in Resources */,
 				C7DB2C5D250C1296006166A3 /* SearchResultCell.xib in Resources */,
 				C7DB2C64250C258B006166A3 /* NothingFoundCell.xib in Resources */,
 				C74BD602250A988C0048EA2D /* Main.storyboard in Resources */,

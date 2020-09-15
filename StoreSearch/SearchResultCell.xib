@@ -51,6 +51,7 @@
                     <constraint firstItem="EMt-ta-CCU" firstAttribute="top" secondItem="hgj-rd-1tz" secondAttribute="top" constant="5" id="HT1-y5-nbr"/>
                     <constraint firstItem="EMt-ta-CCU" firstAttribute="leading" secondItem="hgj-rd-1tz" secondAttribute="leading" constant="5" id="OMe-qi-4oM"/>
                     <constraint firstItem="Inh-rq-wEJ" firstAttribute="leading" secondItem="EMt-ta-CCU" secondAttribute="trailing" constant="10" id="OTH-VL-OkN"/>
+                    <constraint firstItem="xRB-8E-lck" firstAttribute="top" secondItem="Inh-rq-wEJ" secondAttribute="bottom" constant="12" id="Qxf-8v-eD7"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
