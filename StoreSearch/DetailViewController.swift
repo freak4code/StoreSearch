@@ -36,6 +36,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = UIColor.clear
         view.tintColor = UIColor(red: 20/255, green: 160/255, blue: 160/255, alpha: 1)
         popupView.layer.cornerRadius = 10
         
@@ -101,6 +102,15 @@ extension DetailViewController: UIViewControllerTransitioningDelegate{
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController {
         return DimmingPresentationController(presentedViewController: presented, presenting: presenting)
     }
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+      return BounceAnimationController()
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    return SlideOutAnimationController()
+    }
+    
     
 }
 
