@@ -18,6 +18,7 @@
 		C7DB2C5F250C16DC006166A3 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DB2C5E250C16DC006166A3 /* SearchResultCell.swift */; };
 		C7DB2C61250C19E8006166A3 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DB2C60250C19E8006166A3 /* Constant.swift */; };
 		C7DB2C64250C258B006166A3 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DB2C63250C258B006166A3 /* NothingFoundCell.xib */; };
+		C7E2BAC825125690004A0742 /* UIImage+DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E2BAC725125690004A0742 /* UIImage+DownloadImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		C7DB2C5E250C16DC006166A3 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		C7DB2C60250C19E8006166A3 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		C7DB2C63250C258B006166A3 /* NothingFoundCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
+		C7E2BAC725125690004A0742 /* UIImage+DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+DownloadImage.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				C7DB2C60250C19E8006166A3 /* Constant.swift */,
 				C7DB2C63250C258B006166A3 /* NothingFoundCell.xib */,
 				C711E3EE2510D13E001283DF /* LoadingCell.xib */,
+				C7E2BAC725125690004A0742 /* UIImage+DownloadImage.swift */,
 			);
 			path = StoreSearch;
 			sourceTree = "<group>";
@@ -155,6 +158,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7E2BAC825125690004A0742 /* UIImage+DownloadImage.swift in Sources */,
 				C74BD5FF250A988C0048EA2D /* SearchViewController.swift in Sources */,
 				C74BD5FB250A988C0048EA2D /* AppDelegate.swift in Sources */,
 				C769FAF1250ACC9E00D9BF91 /* SearchResult.swift in Sources */,

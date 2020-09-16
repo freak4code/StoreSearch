@@ -20,6 +20,7 @@ class SearchViewController: UIViewController {
     
     var dataTask: URLSessionDataTask?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -159,12 +160,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
         } else {            
             let cell = tableView.dequeueReusableCell(withIdentifier: Constant.TableView.CellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
             let searchResult = searchResults[indexPath.row]
-            cell.nameLabel!.text = searchResult.name
-            if searchResult.artist.isEmpty{
-                cell.artistNameLabel!.text = "Unknown"
-            }else{
-                cell.artistNameLabel!.text =  String(format: "%@  (%@)", searchResult.artist, searchResult.type)
-            }
+            cell.configure(for: searchResult)
             
             return cell
         }
