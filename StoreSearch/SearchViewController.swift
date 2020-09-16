@@ -13,6 +13,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl! // Type ⌘+Enter (without Option) to close the Assistant editor again. These are very handy keyboard shortcuts to remembe
     var searchResults = [SearchResult]()
     var hasSearched = false
     var isLoading = false
@@ -33,12 +34,23 @@ class SearchViewController: UIViewController {
         tableView.register(cellNib, forCellReuseIdentifier: Constant.TableView.CellIdentifiers.loadingCell)
         
         
-        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
         searchBar.delegate =  self
         searchBar.becomeFirstResponder()
+        let segmentColor = UIColor(red: 10/255, green: 80/255, blue: 80/255, alpha: 1)
+        let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        let normalTextAttributes = [NSAttributedString.Key.foregroundColor: segmentColor]
+        segmentedControl.selectedSegmentTintColor = segmentColor
+        segmentedControl.setTitleTextAttributes(normalTextAttributes,for: .normal)
+        segmentedControl.setTitleTextAttributes(selectedTextAttributes,for: .selected)
+        segmentedControl.setTitleTextAttributes(selectedTextAttributes, for: .highlighted)
         
         
-        
+    }
+    
+    
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        performSearch()
     }
     
     
@@ -46,7 +58,9 @@ class SearchViewController: UIViewController {
 
 
 extension SearchViewController: UISearchBarDelegate{
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    
+    
+    func performSearch() {
         searchBar.resignFirstResponder()
         print("The search text is: ’\(searchBar.text!)’ \(searchResults.count)")
         searchResults = []
@@ -54,12 +68,12 @@ extension SearchViewController: UISearchBarDelegate{
             dataTask?.cancel()
             isLoading = true
             tableView.reloadData()
-            let url = iTuneURL(search: searchBar.text!)
+            let url = iTuneURL(search: searchBar.text!,category: segmentedControl.selectedSegmentIndex)
             print(url)
             let session = URLSession.shared
             dataTask = session.dataTask(with: url) { (data, response, error) in
                 if let error = error as NSError?, error.code == -999{
-                   return
+                    return
                 } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                     if let data = data{
                         self.searchResults = self.parse(from: data)
@@ -99,6 +113,13 @@ extension SearchViewController: UISearchBarDelegate{
         
         print("Total: \(searchResults.count)")
         
+        
+    }
+    
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        performSearch()
+    
         
     }
     
@@ -168,9 +189,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
 
 //MARK: - URL s
 extension SearchViewController{
-    func iTuneURL(search text: String) -> URL{
-        let encodedText =  text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)! // for use space and other in url
-        let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200", encodedText)
+    func iTuneURL(search text: String, category: Int = 1) -> URL{
+        let kind: String
+        switch category {
+            case 1: kind = "musicTrack"
+            case 2: kind = "software"
+            case 3: kind = "ebook"
+            default: kind = ""
+        }
+        let encodedText =  text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)! // for use space and other(s) in url
+        let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200&entity=\(kind)", encodedText)
         let url = URL(string: urlString)!
         return url
     }
@@ -195,4 +223,6 @@ extension SearchViewController{
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
+    
+  
 }
