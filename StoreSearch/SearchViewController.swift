@@ -17,6 +17,8 @@ class SearchViewController: UIViewController {
     var hasSearched = false
     var isLoading = false
     
+    var dataTask: URLSessionDataTask?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -49,14 +51,15 @@ extension SearchViewController: UISearchBarDelegate{
         print("The search text is: ’\(searchBar.text!)’ \(searchResults.count)")
         searchResults = []
         if !searchBar.text!.isEmpty{
+            dataTask?.cancel()
             isLoading = true
             tableView.reloadData()
             let url = iTuneURL(search: searchBar.text!)
             print(url)
             let session = URLSession.shared
-            let dataTask = session.dataTask(with: url) { (data, response, error) in
-                if let error = error {
-                    print("Failure! \(error.localizedDescription)")
+            dataTask = session.dataTask(with: url) { (data, response, error) in
+                if let error = error as NSError?, error.code == -999{
+                   return
                 } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                     if let data = data{
                         self.searchResults = self.parse(from: data)
@@ -86,7 +89,7 @@ extension SearchViewController: UISearchBarDelegate{
                 
             }
             
-            dataTask.resume()
+            dataTask?.resume()
             
             
             
