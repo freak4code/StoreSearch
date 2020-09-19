@@ -13,12 +13,28 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
+    var landscapeVC: LandscapeViewController?
+    
     @IBOutlet weak var segmentedControl: UISegmentedControl! // Type ⌘+Enter (without Option) to close the Assistant editor again. These are very handy keyboard shortcuts to remembe
     var searchResults = [SearchResult]()
     var hasSearched = false
     var isLoading = false
     
     var dataTask: URLSessionDataTask?
+    
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        switch newCollection.verticalSizeClass {
+        //When an iPhone app is in portrait orientation, the horizontal size class is compact and the vertical size class is regular. sometimes horizontal size class remians compact in any conditions
+        case .compact:
+            showLandscape(with: coordinator)
+        case .regular, .unspecified:
+            hideLandscape(with: coordinator)
+        @unknown default:
+            fatalError()
+        }
+    }
     
     
     override func viewDidLoad() {
@@ -120,7 +136,7 @@ extension SearchViewController: UISearchBarDelegate{
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         performSearch()
-    
+        
         
     }
     
@@ -198,10 +214,10 @@ extension SearchViewController{
     func iTuneURL(search text: String, category: Int = 1) -> URL{
         let kind: String
         switch category {
-            case 1: kind = "musicTrack"
-            case 2: kind = "software"
-            case 3: kind = "ebook"
-            default: kind = ""
+        case 1: kind = "musicTrack"
+        case 2: kind = "software"
+        case 3: kind = "ebook"
+        default: kind = ""
         }
         let encodedText =  text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)! // for use space and other(s) in url
         let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200&entity=\(kind)", encodedText)
@@ -230,5 +246,46 @@ extension SearchViewController{
         present(alert, animated: true, completion: nil)
     }
     
-  
+    
+}
+
+//MARK: - Landscape View
+
+extension SearchViewController{
+    func showLandscape(with coordinator: UIViewControllerTransitionCoordinator){
+        guard landscapeVC == nil  else {return}
+        landscapeVC = storyboard!.instantiateViewController(identifier: "LandscapeViewController") as? LandscapeViewController
+        if let controller = landscapeVC{
+            controller.view.frame =  view.bounds
+            controller.view.alpha = 0
+            view.addSubview(controller.view)
+            addChild(controller)
+            coordinator.animate(alongsideTransition: { _ in
+                self.searchBar.resignFirstResponder()
+                if self.presentedViewController != nil{
+                    self.dismiss(animated: true, completion: nil)
+                }
+                controller.view.alpha = 1
+            }) { _ in
+                self.didMove(toParent: self)
+            }
+        }
+        
+    }
+    
+    func hideLandscape(with coordinator: UIViewControllerTransitionCoordinator){
+        if let controller = landscapeVC{
+            controller.willMove(toParent: nil)
+            coordinator.animate(alongsideTransition: {
+                _ in
+                controller.view.alpha = 0
+                
+            }, completion: {
+                _ in
+                controller.view.removeFromSuperview()
+                controller.removeFromParent()
+                self.landscapeVC = nil
+            })
+        }
+    }
 }
