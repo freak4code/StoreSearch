@@ -211,20 +211,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We are in Landscape" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SME-aF-7Kj">
-                                <rect key="frame" x="306" y="188" width="284.5" height="38.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LlN-n9-MMu">
+                                <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="Vu1-CB-IAa"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="21G-BX-7Qx"/>
+                                <connections>
+                                    <outlet property="delegate" destination="j5h-hc-ACw" id="JtS-lB-8HJ"/>
+                                </connections>
+                            </scrollView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="dZP-gh-yiR">
+                                <rect key="frame" x="428.5" y="336" width="39" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="pageChanged:" destination="j5h-hc-ACw" eventType="valueChanged" id="APg-2b-QXu"/>
+                                </connections>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <constraints>
-                            <constraint firstItem="SME-aF-7Kj" firstAttribute="centerX" secondItem="A66-0q-6jy" secondAttribute="centerX" id="9n2-oo-BAf"/>
-                            <constraint firstItem="SME-aF-7Kj" firstAttribute="centerY" secondItem="A66-0q-6jy" secondAttribute="centerY" id="HIc-Zk-7Dg"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="lXD-CH-qvM"/>
                     </view>
+                    <connections>
+                        <outlet property="pageControl" destination="dZP-gh-yiR" id="5RE-us-9Ru"/>
+                        <outlet property="scrollView" destination="LlN-n9-MMu" id="7Se-84-dy7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VQP-Ox-wOj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
