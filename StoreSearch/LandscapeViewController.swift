@@ -13,6 +13,7 @@ class LandscapeViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pageControl: UIPageControl!
     private var firstTime = true
+    private var downloads = [URLSessionDownloadTask]()
     
     var searchResults = [SearchResult]()
     
@@ -38,6 +39,10 @@ class LandscapeViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
+    deinit {
+        downloads.forEach{$0.cancel()}
+    }
     
     
     override func viewWillLayoutSubviews() {
@@ -108,9 +113,9 @@ class LandscapeViewController: UIViewController {
         print("Total: \(searchResults.count)")
         for (index, result) in searchResults.enumerated() {
             // 1
-            let button = UIButton(type: .system)
-            button.backgroundColor = UIColor.white
-            button.setTitle("\(index)", for: .normal) // 2
+            let button = UIButton(type: .custom)
+            button.setBackgroundImage(UIImage(named: "LandscapeButton"), for: .normal)
+            let download = downloadImage(for: result, andPlaceOn: button)
             button.frame = CGRect(x: x + paddingHorz,
                                   y: marginY + CGFloat(row)*itemHeight + paddingVert,
                                   width: buttonWidth, height: buttonHeight)
@@ -140,6 +145,29 @@ class LandscapeViewController: UIViewController {
         
         
     }
+    
+    private func downloadImage(for searchResult: SearchResult,
+                               andPlaceOn button: UIButton){
+        if let url = URL(string: searchResult.imageSmall) {
+            let task = URLSession.shared.downloadTask(with: url) {
+                [weak button] url, response, error in
+                if error == nil, let url = url,
+                    let data = try? Data(contentsOf: url),
+                    let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        if let button = button {
+                        button.setImage(image, for: .normal) }
+                    } }
+            }
+            task.resume()
+            downloads.append(task)
+           
+            
+        }
+    }
+    
+    
+    
 }
 
 
@@ -153,11 +181,11 @@ extension LandscapeViewController: UIScrollViewDelegate{
     }
     
     @IBAction func pageChanged(_ sender: UIPageControl) {
-      
+        
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
             self.scrollView.contentOffset = CGPoint(
-            x: self.scrollView.bounds.size.width *
-                CGFloat(sender.currentPage), y: 0)
+                x: self.scrollView.bounds.size.width *
+                    CGFloat(sender.currentPage), y: 0)
         }, completion: nil)
     }
     

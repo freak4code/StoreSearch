@@ -16,8 +16,8 @@ extension UIImageView{
                 let data = try? Data(contentsOf: url),
                 let image = UIImage(data: data){
                 DispatchQueue.main.async {
-                    if let wealSelf = self{
-                        wealSelf.image = image
+                    if let weakSelf = self{
+                        weakSelf.image = image
                     }
                 }
             }
