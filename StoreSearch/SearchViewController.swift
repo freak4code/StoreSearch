@@ -16,11 +16,11 @@ class SearchViewController: UIViewController {
     var landscapeVC: LandscapeViewController?
     
     @IBOutlet weak var segmentedControl: UISegmentedControl! // Type ⌘+Enter (without Option) to close the Assistant editor again. These are very handy keyboard shortcuts to remembe
-   
+    
     
     private let search = Search()
     
-  
+    
     
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -84,12 +84,13 @@ extension SearchViewController: UISearchBarDelegate{
                 self.showNetworkError()
             }
             self.tableView.reloadData()
+            self.landscapeVC?.searchResultsReceived()
         }
-           tableView.reloadData()
-           searchBar.resignFirstResponder()
-            
+        tableView.reloadData()
+        searchBar.resignFirstResponder()
         
-       
+        
+        
     }
     
     
@@ -108,37 +109,40 @@ extension SearchViewController: UISearchBarDelegate{
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if search.isLoading{
+        switch search.state {
+        case .loading:
             return 1
-        }else if !search.hasSearched {
+        case .notSearchedYet:
             return 0
-        } else if search.searchResults.count == 0 {
+        case .noResults:
             return 1
-        } else {
-            return search.searchResults.count
-            
+        case .results(let list):
+            return list.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if search.isLoading{
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constant.TableView.CellIdentifiers.loadingCell,for: indexPath)
+        switch search.state {
+        case .loading:
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constant.TableView.CellIdentifiers.loadingCell, for: indexPath)
             let spinner = cell.viewWithTag(100) as! UIActivityIndicatorView
             spinner.startAnimating()
             return cell
-            
-        }
-        else if search.searchResults.count == 0 {
+        case .notSearchedYet:
+            fatalError()
+        case .noResults:
             return tableView.dequeueReusableCell(withIdentifier: Constant.TableView.CellIdentifiers.nothingFoundCell, for: indexPath)
-            
-        } else {            
+        case .results(let list):
             let cell = tableView.dequeueReusableCell(withIdentifier: Constant.TableView.CellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
-            let searchResult = search.searchResults[indexPath.row]
+            let searchResult = list[indexPath.row]
             cell.configure(for: searchResult)
-            
             return cell
         }
+        
+        
+        
+        
+        
         
         
     }
@@ -149,10 +153,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if search.searchResults.count == 0 || search.isLoading {
+        switch search.state {
+        case .loading, .noResults, .notSearchedYet:
             return nil
+        case .results:
+            return indexPath
         }
-        return indexPath
+        
     }
     
     
@@ -160,7 +167,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowDetail"{
             let destination = segue.destination as! DetailViewController
-            destination.item = search.searchResults[(sender as! IndexPath).row]
+            if case .results(let list) = search.state{
+                destination.item = list[(sender as! IndexPath).row]
+            }
+            
         }
     }
     
@@ -170,13 +180,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
 
 //MARK: - URL s
 extension SearchViewController{
-   func showNetworkError(){
-              let alert = UIAlertController(title: "Whoops...", message: "There was an error accessing the iTunes Store. Please try again.", preferredStyle: .alert)
-   
-              let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-              alert.addAction(action)
-              present(alert, animated: true, completion: nil)
-          }
+    func showNetworkError(){
+        let alert = UIAlertController(title: "Whoops...", message: "There was an error accessing the iTunes Store. Please try again.", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
     
     
 }
@@ -212,6 +222,9 @@ extension SearchViewController{
             coordinator.animate(alongsideTransition: {
                 _ in
                 controller.view.alpha = 0
+                if self.presentedViewController != nil{
+                    self.dismiss(animated: true, completion: nil)
+                }
                 
             }, completion: {
                 _ in

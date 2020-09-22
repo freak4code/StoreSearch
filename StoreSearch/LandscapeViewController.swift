@@ -54,7 +54,19 @@ class LandscapeViewController: UIViewController {
                                    height: pageControl.frame.size.height)
         if firstTime{
             firstTime = false
-            tileButtons(search.searchResults)
+            switch search.state {
+            case .loading:
+                showSpinner()
+            case .noResults:
+                showNothingFoundLabel()
+            case .notSearchedYet:
+                break
+            case .results(let list):
+                tileButtons(list)
+                
+                
+            }
+            
         }
     }
     
@@ -114,6 +126,8 @@ class LandscapeViewController: UIViewController {
         for (index, result) in searchResults.enumerated() {
             // 1
             let button = UIButton(type: .custom)
+            button.tag = 2000 + index
+            button.addTarget(self, action: #selector(showDetail), for: .touchUpInside)
             button.setBackgroundImage(UIImage(named: "LandscapeButton"), for: .normal)
             let download = downloadImage(for: result, andPlaceOn: button)
             button.frame = CGRect(x: x + paddingHorz,
@@ -156,17 +170,67 @@ class LandscapeViewController: UIViewController {
                     let image = UIImage(data: data) {
                     DispatchQueue.main.async {
                         if let button = button {
-                        button.setImage(image, for: .normal) }
+                            button.setImage(image, for: .normal) }
                     } }
             }
             task.resume()
             downloads.append(task)
-           
+            
             
         }
     }
     
+    private func showSpinner() {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.center = CGPoint(x: view.bounds.midX + 0.5,y: view.bounds.midY + 0.5)
+        spinner.tag = 10000
+        view.addSubview(spinner)
+        spinner.startAnimating()
+    }
     
+    private func hideSpinner() {
+        view.viewWithTag(10000)?.removeFromSuperview() }
+    
+    func searchResultsReceived() {
+        hideSpinner()
+        switch search.state {
+        case .notSearchedYet, .loading, .noResults:
+            break
+        case .results(let list):
+            tileButtons(list)
+        }
+    }
+    
+    private func showNothingFoundLabel() {
+        let label = UILabel(frame: CGRect.zero)
+        label.text = "Nothing Found"
+        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.clear
+        label.sizeToFit()
+        var rect = label.frame
+        rect.size.width = ceil(rect.size.width/2) * 2
+        rect.size.height = ceil(rect.size.height/2) * 2 // make even label.frame = rect
+        label.center = CGPoint(x: scrollView.bounds.midX,y: scrollView.bounds.midY)
+        view.addSubview(label)
+        
+    }
+    
+    @objc func showDetail(_ sender:UIButton){
+        performSegue(withIdentifier: "ShowDetail", sender: sender)
+    }
+    
+    
+    //MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowDetail" {
+            let destination = segue.destination as! DetailViewController
+            if case .results(let list) = search.state {
+                destination.item = list[(sender as! UIButton).tag - 2000]
+            }
+            
+        }
+    }
     
 }
 
