@@ -19,10 +19,18 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var genreLabel: UILabel!
     @IBOutlet weak var priceButton: UIButton!
     
-    var item: SearchResult!
+    var item: SearchResult!{
+        didSet{
+            if isViewLoaded{
+                updateUI()
+            }
+        }
+    }
     var downloadTask: URLSessionDownloadTask?
     
     var dismissStyle = AnimationStyle.fade
+    
+    var isPopup = false
     
     
     required init?(coder: NSCoder) {
@@ -42,10 +50,31 @@ class DetailViewController: UIViewController {
         view.tintColor = UIColor(red: 20/255, green: 160/255, blue: 160/255, alpha: 1)
         popupView.layer.cornerRadius = 10
         
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
-        gestureRecognizer.cancelsTouchesInView = false
-        gestureRecognizer.delegate = self
-        view.addGestureRecognizer(gestureRecognizer)
+        if isPopup{
+            let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
+            gestureRecognizer.cancelsTouchesInView = false
+            gestureRecognizer.delegate = self
+            view.addGestureRecognizer(gestureRecognizer)
+            updateUI()
+        }else{
+            view.backgroundColor = UIColor(patternImage:
+                UIImage(named: "LandscapeBackground")!)
+            popupView.isHidden = true
+            if let displayName = Bundle.main.localizedInfoDictionary?["CFBundleDisplayName"] as? String{
+                title = displayName
+            }
+        }
+        
+    }
+    
+    @IBAction func close(){
+        dismissStyle = .slide
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func updateUI(){
+        
         if let imageBigURL = URL(string:item.imageLarge){
             downloadTask = artworkImageView.loadImage(url:imageBigURL)
         }
@@ -77,15 +106,7 @@ class DetailViewController: UIViewController {
         
         priceButton.setTitle(priceText, for: .normal)
         
-        
-        
-        
-        // Do any additional setup after loading the view.
-    }
-    
-    @IBAction func close(){
-        dismissStyle = .slide
-        dismiss(animated: true, completion: nil)
+        popupView.isHidden = false
         
     }
     

@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var landscapeVC: LandscapeViewController?
+    weak var splitViewDetail: DetailViewController?
     
     @IBOutlet weak var segmentedControl: UISegmentedControl! // Type ⌘+Enter (without Option) to close the Assistant editor again. These are very handy keyboard shortcuts to remembe
     
@@ -41,6 +42,8 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        title = NSLocalizedString("Search", comment: "split view master button")
+        
         var cellNib = UINib(nibName:Constant.TableView.CellIdentifiers.searchResultCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: Constant.TableView.CellIdentifiers.searchResultCell)
         
@@ -53,7 +56,10 @@ class SearchViewController: UIViewController {
         
         tableView.contentInset = UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
         searchBar.delegate =  self
-        searchBar.becomeFirstResponder()
+        if UIDevice.current.userInterfaceIdiom != .pad{
+            searchBar.becomeFirstResponder()
+        }
+        
         let segmentColor = UIColor(red: 10/255, green: 80/255, blue: 80/255, alpha: 1)
         let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         let normalTextAttributes = [NSAttributedString.Key.foregroundColor: segmentColor]
@@ -149,7 +155,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if view.window!.rootViewController!.traitCollection.horizontalSizeClass == .compact{
         performSegue(withIdentifier: "ShowDetail", sender: indexPath)
+        }else{
+            if case .results(let list) = search.state{
+                splitViewDetail?.item = list[indexPath.row]
+                if self.splitViewController!.displayMode != .allVisible{
+                    hideMasterPane()
+                }
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -162,6 +177,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
         
     }
     
+    private func hideMasterPane(){
+        UIView.animate(withDuration: 0.25, animations: {
+            self.splitViewController!.preferredDisplayMode = .primaryHidden
+        }) { _ in
+            self.splitViewController!.preferredDisplayMode = .automatic
+        }
+    }
+    
     
     //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -169,6 +192,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
             let destination = segue.destination as! DetailViewController
             if case .results(let list) = search.state{
                 destination.item = list[(sender as! IndexPath).row]
+                destination.isPopup = true
             }
             
         }

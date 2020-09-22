@@ -227,6 +227,7 @@ class LandscapeViewController: UIViewController {
             let destination = segue.destination as! DetailViewController
             if case .results(let list) = search.state {
                 destination.item = list[(sender as! UIButton).tag - 2000]
+                destination.isPopup = true
             }
             
         }
