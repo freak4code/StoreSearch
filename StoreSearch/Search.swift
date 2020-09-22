@@ -21,9 +21,9 @@ class Search{
         print("Searching...")
         if !text.isEmpty {
             dataTask?.cancel()
-//            isLoading = true
-//            hasSearched = true
-//            searchResults = []
+            //            isLoading = true
+            //            hasSearched = true
+            //            searchResults = []
             state = .loading
             
             let url = iTunesURL(search: text, category: category)
@@ -38,9 +38,9 @@ class Search{
                 }
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let data = data {
                     var searchResults = self.parse(from: data)
-//                    self.searchResults.sort(by: <)
-//                    print("Success!")
-//                    self.isLoading = false
+                    //                    self.searchResults.sort(by: <)
+                    //                    print("Success!")
+                    //                    self.isLoading = false
                     if searchResults.isEmpty{
                         newState = .noResults
                     }else{
@@ -50,14 +50,14 @@ class Search{
                     success = true
                 }
                 
-//                if !success {
-//                    print("Failure! \(response!)")
-//                    self.hasSearched = false
-//                    self.isLoading = false
-//                }
+                //                if !success {
+                //                    print("Failure! \(response!)")
+                //                    self.hasSearched = false
+                //                    self.isLoading = false
+                //                }
                 
                 DispatchQueue.main.async {
-       
+                    
                     self.state = newState
                     completion(success)
                     
@@ -74,9 +74,13 @@ class Search{
     
     private func iTunesURL(search text: String, category: Category = .all) -> URL{
         let kind = category.type
+        let locale = Locale.autoupdatingCurrent
+        let language =  locale.identifier
+        let countryCode = locale.regionCode ?? "US"
         let encodedText =  text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)! // for use space and other(s) in url
-        let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200&entity=\(kind)", encodedText)
+        let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200&entity=\(kind)&lang=\(language)&country=\(countryCode)", encodedText)
         let url = URL(string: urlString)!
+        print("URL: \(url)")            
         return url
     }
     
@@ -109,10 +113,10 @@ class Search{
     
     
     enum State {
-      case notSearchedYet
-      case loading
-      case noResults
-      case results([SearchResult])
+        case notSearchedYet
+        case loading
+        case noResults
+        case results([SearchResult])
     }
     
 }

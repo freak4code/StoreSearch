@@ -10,6 +10,8 @@
 		C7177195251978040079C628 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7177197251978040079C628 /* NothingFoundCell.xib */; };
 		C717719A25197B4C0079C628 /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C717719C25197B4C0079C628 /* LoadingCell.xib */; };
 		C71771A525197DB40079C628 /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71771A725197DB40079C628 /* SearchResultCell.xib */; };
+		C71771AB251A56BE0079C628 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C71771AD251A56BE0079C628 /* Localizable.strings */; };
+		C71771B1251A59600079C628 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C71771B3251A59600079C628 /* InfoPlist.strings */; };
 		C74BD5FB250A988C0048EA2D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BD5FA250A988C0048EA2D /* AppDelegate.swift */; };
 		C74BD5FD250A988C0048EA2D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BD5FC250A988C0048EA2D /* SceneDelegate.swift */; };
 		C74BD5FF250A988C0048EA2D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BD5FE250A988C0048EA2D /* SearchViewController.swift */; };
@@ -39,6 +41,10 @@
 		C71771A225197C770079C628 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
 		C71771A425197C810079C628 /* bn-BD */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bn-BD"; path = "bn-BD.lproj/Main.strings"; sourceTree = "<group>"; };
 		C71771A625197DB40079C628 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SearchResultCell.xib; sourceTree = "<group>"; };
+		C71771AC251A56BE0079C628 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C71771AE251A57710079C628 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C71771B2251A59600079C628 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C71771B4251A59760079C628 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C74BD5F7250A988C0048EA2D /* StoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C74BD5FA250A988C0048EA2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C74BD5FC250A988C0048EA2D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,6 +117,8 @@
 				C77D1C0C2516992E00FC4CAD /* LandscapeViewController.swift */,
 				C77D1C0E2516B58600FC4CAD /* FadeOutAnimationController.swift */,
 				C77D1C102517A41900FC4CAD /* Search.swift */,
+				C71771AD251A56BE0079C628 /* Localizable.strings */,
+				C71771B3251A59600079C628 /* InfoPlist.strings */,
 			);
 			path = StoreSearch;
 			sourceTree = "<group>";
@@ -176,6 +184,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C74BD604250A988E0048EA2D /* Assets.xcassets in Resources */,
+				C71771B1251A59600079C628 /* InfoPlist.strings in Resources */,
+				C71771AB251A56BE0079C628 /* Localizable.strings in Resources */,
 				C717719A25197B4C0079C628 /* LoadingCell.xib in Resources */,
 				C71771A525197DB40079C628 /* SearchResultCell.xib in Resources */,
 				C7177195251978040079C628 /* NothingFoundCell.xib in Resources */,
@@ -237,6 +247,24 @@
 				C71771A625197DB40079C628 /* Base */,
 			);
 			name = SearchResultCell.xib;
+			sourceTree = "<group>";
+		};
+		C71771AD251A56BE0079C628 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C71771AC251A56BE0079C628 /* en */,
+				C71771AE251A57710079C628 /* nl */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		C71771B3251A59600079C628 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C71771B2251A59600079C628 /* en */,
+				C71771B4251A59760079C628 /* nl */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		C74BD600250A988C0048EA2D /* Main.storyboard */ = {
