@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 class DetailViewController: UIViewController {
     
@@ -47,7 +48,12 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.clear
-        view.tintColor = UIColor(red: 20/255, green: 160/255, blue: 160/255, alpha: 1)
+        if traitCollection.userInterfaceStyle == .light{
+            view.tintColor = UIColor(red: 20/255, green: 160/255, blue: 160/255, alpha: 1)
+            
+        }else{
+            view.tintColor = UIColor(red: 140/255, green: 140/255, blue: 240/255, alpha: 1)
+        }
         popupView.layer.cornerRadius = 10
         
         if isPopup{
@@ -64,6 +70,7 @@ class DetailViewController: UIViewController {
                 title = displayName
             }
         }
+        
         
     }
     
@@ -111,15 +118,18 @@ class DetailViewController: UIViewController {
     }
     
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    
+    // MARK: - Navigation
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "ShowMenu" {
+            let destination = segue.destination as! MenuViewController
+            destination.delegate = self
+        }
+    }
+    
     
 }
 
@@ -155,5 +165,29 @@ extension DetailViewController{
     
     enum AnimationStyle{
         case slide , fade
+    }
+}
+
+
+extension DetailViewController: MenuViewControllerDelegate {
+    func menuViewControllerSendEmail(_ controller: MenuViewController) {
+        dismiss(animated: true){
+            if MFMailComposeViewController.canSendMail() {
+                let controller = MFMailComposeViewController()
+                controller.mailComposeDelegate = self
+                controller.modalPresentationStyle = .formSheet
+                controller.setSubject(NSLocalizedString("Support Request",comment: "Email subject"))
+                controller.setToRecipients(["info@snnsystems.com"])
+                self.present(controller, animated: true, completion: nil)
+            }
+            
+        }
+    }
+    
+}
+
+extension DetailViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
     }
 }

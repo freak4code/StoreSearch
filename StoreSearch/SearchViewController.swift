@@ -26,16 +26,26 @@ class SearchViewController: UIViewController {
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
-        switch newCollection.verticalSizeClass {
-        //When an iPhone app is in portrait orientation, the horizontal size class is compact and the vertical size class is regular. sometimes horizontal size class remians compact in any conditions
-        case .compact:
-            showLandscape(with: coordinator)
-        case .regular, .unspecified:
-            hideLandscape(with: coordinator)
-        @unknown default:
-            fatalError()
+        
+        let rect = UIScreen.main.bounds
+        if (rect.width == 736 && rect.height == 414) || // portrait
+            (rect.width == 414 && rect.height == 736) { // landscape
+            if presentedViewController != nil {
+                dismiss(animated: true, completion: nil)
+            }
+        }else if UIDevice.current.userInterfaceIdiom != .pad{
+              switch newCollection.verticalSizeClass {
+                //When an iPhone app is in portrait orientation, the horizontal size class is compact and the vertical size class is regular. sometimes horizontal size class remians compact in any conditions
+                case .compact:
+                    showLandscape(with: coordinator)
+                case .regular, .unspecified:
+                    hideLandscape(with: coordinator)
+                @unknown default:
+                    fatalError()
+                }
+            }
         }
-    }
+
     
     
     override func viewDidLoad() {
@@ -156,7 +166,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if view.window!.rootViewController!.traitCollection.horizontalSizeClass == .compact{
-        performSegue(withIdentifier: "ShowDetail", sender: indexPath)
+            performSegue(withIdentifier: "ShowDetail", sender: indexPath)
         }else{
             if case .results(let list) = search.state{
                 splitViewDetail?.item = list[indexPath.row]
