@@ -347,7 +347,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="2Di-BM-jDK" kind="relationship" relationship="rootViewController" id="heF-YY-BQn"/>
+                        <segue destination="2Di-BM-jDK" kind="relationship" relationship="rootViewController" id="raR-Br-apU"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jDu-LT-ASp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -359,8 +359,8 @@
             <objects>
                 <splitViewController id="2Rb-ge-TRa" sceneMemberID="viewController">
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="masterViewController" id="Uyr-lT-RW4"/>
-                        <segue destination="D0I-aM-rMm" kind="relationship" relationship="detailViewController" id="wFg-EP-VSC"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="masterViewController" id="1DQ-oE-RS7"/>
+                        <segue destination="D0I-aM-rMm" kind="relationship" relationship="detailViewController" id="jvY-QI-N1k"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0aO-KW-T7h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -407,7 +407,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="FKC-R5-RFu"/>
+        <segue reference="G7N-h1-CRK"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="CloseButton" width="15" height="15"/>
